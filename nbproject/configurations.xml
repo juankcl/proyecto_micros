@@ -12,7 +12,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>baseTiempo.asm</itemPath>
+      <itemPath>Source/main.asm</itemPath>
+      <itemPath>Source/temporizador.asm</itemPath>
+      <itemPath>Source/lcd.asm</itemPath>
+      <itemPath>Source/dia_hora.asm</itemPath>
+      <itemPath>Source/enchufes.asm</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -28,7 +32,7 @@
         <targetDevice>PIC18F45K50</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool></platformTool>
+        <platformTool>VSMViewerPlatformTool</platformTool>
         <languageToolchain>MPASMWIN</languageToolchain>
         <languageToolchainVersion>5.86</languageToolchainVersion>
         <platform>3</platform>
