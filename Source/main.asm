@@ -1,8 +1,12 @@
 ; Programa que genera interrupciones
 LIST P = 18f45K50
 #include<p18f45K50.inc> 
- 
-; Sección de bits de configuracion inicial
+
+; Funciones externas
+; LCD
+EXTERN LCDInit, LCD_Comm, LCD_Char
+	
+; Seccion de bits de configuracion inicial
 CONFIG WDTEN = OFF  ; Disables the Watchdog
 CONFIG MCLRE = ON; Enables MCLEAR
 CONFIG DEBUG = OFF ; Disables Debug mode
@@ -21,43 +25,35 @@ GOTO Start
 
 
 Start:
-	MOVLB 0x0F 
-	CLRF ANSELD,1
-	CLRF ANSELC,1
-	CLRF PORTC ; Cleans PORT D
-	CLRF TRISC
-	CLRF PORTD
-	CLRF TRISD
-	CLRF Aux1
-	CLRF Aux2
+	MOVLB 0x0F
+	
+	CLRF ANSELD,1 ; Dejar todos los canales en digitales
+	CLRF PORTD ; Cleans PORT D
+	CLRF TRISD ; Sets PORT D pins as outputs
+	
+	CLRF ANSELB,1 ; Dejar todos los canales en digitales
+	CLRF PORTB ; Cleans PORT D
+	CLRF TRISB ; Sets PORT D pins as outputs
 
-	CLRF PORTA
-
-	MOVLW b'1000100'
-	MOVWF T0CON
-	
-	MOVLW b'11100000'
-	MOVWF INTCON
-	
-	BSF RCON,7
-	
-	MOVLW b'00000001'
-	MOVWF PORTD
-	
-	MOVLW b'01010000'
+	MOVLW b'01010011' ; Configures OSCCON register
 	MOVWF OSCCON
 
+	; Inicializar la pantalla LCD
+	Call Retardo
+	CALL LCDInit
+	
+	; Mostrar la letra 'H'
+	MOVLW 'H'
+	CALL LCD_Char
+	
 ;Ciclo principal
 MainLoop:
-	RRNCF PORTD,f
-	CALL Retardo
 	GOTO MainLoop
 
 Retardo:
 	DECFSZ Aux1,1
 		GOTO Retardo
-	DECFSZ Aux2,1
-		GOTO Retardo
 	RETURN
+	GLOBAL Retardo
 
 end
